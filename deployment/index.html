@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Deployment Guide - All-In-One AI Documentation</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Deployment Guide";
+        var mkdocs_page_input_path = "deployment.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> All-In-One AI Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Solution Overview</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../builder/">Builder Guide</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Deployment Guide</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#prerequisites">Prerequisites</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#resources-to-be-created-prior-to-deployment">Resources to be created prior to deployment.</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#resources-to-be-deleted-prior-to-deployment">Resources to be deleted prior to deployment.</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#resources-to-be-prepared-prior-to-deployment">Resources to be prepared prior to deployment</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#service-quotas-and-limits">Service quotas and limits</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#quick-deployment">Quick Deployment</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#get-source-code">Get source code</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#build-and-deploy">Build and deploy</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#various-deployment-options">Various deployment options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#cognito-user-pool-and-user-authentication">Cognito user pool and user authentication</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#cognito-deployment-optional">Cognito deployment (Optional)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#all-in-one-ai-deployment">All-In-One AI deployment</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#resource-cleanup">Resource Cleanup</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#cloudformation-stack-parameters-reference">CloudFormation Stack Parameters Reference</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../developer/">Developer Guide</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">All-In-One AI Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+      <li>Deployment Guide</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="deployment-guide">Deployment Guide</h1>
+<h2 id="prerequisites">Prerequisites</h2>
+<h3 id="resources-to-be-created-prior-to-deployment">Resources to be created prior to deployment.</h3>
+<p>Make sure the following resouces existed. In case they are not existed, please create them manually prior to deployment.</p>
+<ol>
+<li>Service-linked role<ul>
+<li>AWSServiceRoleForAmazonElasticsearchService</li>
+</ul>
+</li>
+</ol>
+<h3 id="resources-to-be-deleted-prior-to-deployment">Resources to be deleted prior to deployment.</h3>
+<p>Make sure the following resources not existed. In case they are existed, please delete them manually prior to deployment.</p>
+<ol>
+<li>DynamoDB tables<ul>
+<li>all-in-one-ai-industrial-model</li>
+<li>all-in-one-ai-training-job</li>
+<li>all-in-one-ai-model</li>
+<li>all-in-one-ai-endpoint</li>
+<li>all-in-one-ai-transform-job</li>
+<li>all-in-one-ai-pipeline</li>
+<li>all-in-one-ai-api</li>
+</ul>
+</li>
+<li>Lambda functions<ul>
+<li>all_in_one_ai_annotation</li>
+<li>all_in_one_ai_api</li>
+<li>all_in_one_ai_create_api</li>
+<li>all_in_one_ai_create_deploy_huggingface</li>
+<li>all_in_one_ai_create_deploy_mxnet</li>
+<li>all_in_one_ai_create_deploy_pytorch</li>
+<li>all_in_one_ai_create_endpoint</li>
+<li>all_in_one_ai_create_model</li>
+<li>all_in_one_ai_create_pipeline</li>
+<li>all_in_one_ai_create_pipeline_helper</li>
+<li>all_in_one_ai_create_train_huggingface</li>
+<li>all_in_one_ai_create_train_mxnet</li>
+<li>all_in_one_ai_create_training_job</li>
+<li>all_in_one_ai_create_transform_job</li>
+<li>all_in_one_ai_delete_endpoint</li>
+<li>all_in_one_ai_delete_model</li>
+<li>all_in_one_ai_deploy</li>
+<li>all_in_one_ai_describe_endpoint</li>
+<li>all_in_one_ai_describe_pipeline_execution</li>
+<li>all_in_one_ai_describe_training_job</li>
+<li>all_in_one_ai_describe_transform_job</li>
+<li>all_in_one_ai_endpoint</li>
+<li>all_in_one_ai_finalize_pipeline</li>
+<li>all_in_one_ai_function</li>
+<li>all_in_one_ai_greengrass_component_version</li>
+<li>all_in_one_ai_coredevices</li>
+<li>all_in_one_ai_greengrass_create_component_version</li>
+<li>all_in_one_ai_greengrass_create_deployment</li>
+<li>all_in_one_ai_greengrass_deployment</li>
+<li>all_in_one_ai_greengrass_thing_groups</li>
+<li>all_in_one_ai_import_opensearch</li>
+<li>all_in_one_ai_import_opensearch_handler</li>
+<li>all_in_one_ai_import_opensearch_helper</li>
+<li>all_in_one_ai_industrial_model</li>
+<li>all_in_one_ai_inference</li>
+<li>all_in_one_ai_invoke_endpoint</li>
+<li>all_in_one_ai_list_endpoints</li>
+<li>all_in_one_ai_list_models</li>
+<li>all_in_one_ai_list_training_jobs</li>
+<li>all_in_one_ai_list_transform_jobs</li>
+<li>all_in_one_ai_model</li>
+<li>all_in_one_ai_model_package</li>
+<li>all_in_one_ai_model_package_group</li>
+<li>all_in_one_ai_pipeline</li>
+<li>all_in_one_ai_s3</li>
+<li>all_in_one_ai_search_by_image</li>
+<li>all_in_one_ai_stop_training_job</li>
+<li>all_in_one_ai_stop_transform_job</li>
+<li>all_in_one_ai_train</li>
+<li>all_in_one_ai_training_job</li>
+<li>all_in_one_ai_transform_job</li>
+<li>all_in_one_ai_transform_job_review</li>
+</ul>
+</li>
+<li>OpenSearch Domain<ul>
+<li>all-in-one-ai</li>
+</ul>
+</li>
+<li>Simple Queue Service<ul>
+<li>all-in-one-ai</li>
+</ul>
+</li>
+<li>System Store Parameters<ul>
+<li>parameters starting with /all_in_one_ai/*</li>
+</ul>
+</li>
+<li>VPCs<ul>
+<li>all-in-one-ai</li>
+</ul>
+</li>
+</ol>
+<h3 id="resources-to-be-prepared-prior-to-deployment">Resources to be prepared prior to deployment</h3>
+<ul>
+<li>S3 bucket - in the same region as the stack to be launched.</li>
+<li>Domain Name of web portal (Optional) - Needed only when connections protocol to web portal is HTTPS.</li>
+<li>ACM SSL certificate of web portal (Optional) - Needed only when connections protocol to web portal is HTTPS</li>
+</ul>
+<h3 id="service-quotas-and-limits">Service quotas and limits</h3>
+<ul>
+<li>Amazon VPC – 1</li>
+<li>Amazon VPC subnet – 4</li>
+<li>Amazon VPC Internet Gateway - 1</li>
+<li>Amazon VPC NAT gateway – 2</li>
+<li>Amazon VPC EIP – 2</li>
+<li>Amazon VPC endpoint – 5</li>
+<li>Amazon VPC route table - 3</li>
+<li>Amazon VPC Security group - 10</li>
+<li>Amazon VPC interface endpoint - 5</li>
+<li>Amazon IAM roles - 60</li>
+<li>Amazon SSM - 40</li>
+<li>Amazon Cognito user pool - 1</li>
+<li>Amazon DynamoDB table - 10</li>
+<li>Amazon EFS – 1</li>
+<li>Amazon EFS access point - 1</li>
+<li>Amazon Lambda - 60</li>
+<li>Amazon Rest API Gateway - 1</li>
+<li>Amazon OpenSearch domain - 1</li>
+<li>Amazon SQS queue - 1</li>
+<li>Amazon ECS service – 1</li>
+<li>Amazon ECS task - 1</li>
+<li>Amazon ECR private repository – 1</li>
+<li>Amazon S3 bucket – 1</li>
+<li>Amazon ACM public certificate - 1</li>
+</ul>
+<h2 id="quick-deployment">Quick Deployment</h2>
+<h3 id="get-source-code">Get source code</h3>
+<pre><code>git clone https://github.com/xieyongliang/all-in-one-ai -t [path-to-all-in-one-ai]
+</code></pre>
+<h3 id="build-and-deploy">Build and deploy</h3>
+<pre><code>Run the following commands to package python codes and build docker image for web portal and then upload assets to S3 and push docker image to ECR which region is the same AWS region as where CloudFormation stack. It will may take 30-60 minutes.
+
+./build_and_deploy.sh [s3uri] [aws-region]
+</code></pre>
+<h3 id="various-deployment-options">Various deployment options</h3>
+<ol>
+<li>
+<p>Option 1 – web portal with HTTP access</p>
+<ul>
+<li>It will be applicable only when you want to quickly experience this solution. You can leave Certificate field as blank in All-In-One AI main stack parameters to indicate it is option 1 – HTTP access only.</li>
+<li>Cautions: It is not recommended since there is no HTTPS encryption during network communication and there is no user authentication mechanism.   </li>
+</ul>
+</li>
+<li>
+<p>Option 2 – web portal with HTTPS access</p>
+<ul>
+<li>It will be applicable only when you want use your own user authentication mechanism. You can leave CognitoRegion field as blank in All-In-One AI main stack parameters to indicate it is option 2 – HTTPS access only.</li>
+<li>Cautions: you need to integrate your own user authentication mechanism into this solution guidance. You can refer to the Cognito integration.</li>
+</ul>
+</li>
+<li>
+<p>Option 3 – web portal with HTTPS access + Cognito.</p>
+<ul>
+<li>You need to provide CognitoRegion, UserPool, UserPoolClient, UserPoolDomain in All-In-One AI main stack parameters to indicate it is option 3 – HTTPS access + Cognito.</li>
+<li>It is recommended since there is HTTPs encryption during network communication and user authentication enabled.</li>
+</ul>
+</li>
+</ol>
+<h3 id="cognito-user-pool-and-user-authentication">Cognito user pool and user authentication</h3>
+<p>The quick deployment process contains 2 steps: Cognito deployment (Optional) and All-In-One AI deployment via CloudFormation where these 2 CloudFormation stacks could be launched in different region. Cognito is optional used to authenticate with Cognito for All-In-One AI web portal.</p>
+<p>If Cognito authentication is enabled, Cognito deployment should be done prior to All-In-One AI deployment with parameters – ClientName, Domain, DomainName, Email, and Username. After Cognito CloudFormation stack is launched, outputs – UserPool, UserPoolClient, UserPoolDomain can be found at the Outputs of Cognito stack. Those outputs variable will be used as the input parameter of All-In-One AI. After All-In-One AI CloudFormation stack is launched, when accessing All-In-One AI web portal, there is a  first-time redirection to Cognito Login page to authenticate with Cognito if the Cognito session is not existed yet.</p>
+<p>If Cognito authentication is disabled, please launch All-in-One AI CloudFormation Stack directly and leave parameters – CognitoRegion, UserPool, UserPoolClient, UserPoolDomain blank. When accessing All-In-One AI web portal, there is no first-time redirection to Cognito Login page.</p>
+<h3 id="cognito-deployment-optional">Cognito deployment (Optional)</h3>
+<ol>
+<li>
+<p>Launch CloudFormation stack template by clicking <a href="https://console.aws.amazon.com/cloudformation/home?#/stacks/create/template"><img alt="Launch CloudFormation stack" src="../assets/images/launch.png" /></a> , and input Amazon S3 URL with HTTP URI of all-in-one-ai-cognito.yaml.</p>
+<p><img alt="Cognito CloudFormation step 1" src="../assets/images/cognito_step_1.png" /></p>
+</li>
+<li>
+<p>Specify stack details.  Please input DomainName, Email information of your stack template, and customize other parameters if needed. Choose Next</p>
+<p><img alt="Cognito CloudFormation step 2" src="../assets/images/cognito_step_2.png" /></p>
+</li>
+<li>
+<p>Configure stack options. Keep everything as default and choose Next.</p>
+<p><img alt="Cognito CloudFormation step 3" src="../assets/images/cognito_step_3.png" /></p>
+</li>
+<li>
+<p>Review stack all-in-one-ai. Check the 2 check boxes in the bottom. Choose Create Stack.</p>
+<p><img alt="Cognito CloudFormation step 4" src="../assets/images/cognito_step_4.png" /></p>
+</li>
+<li>
+<p>Wait for around 5 minutes to get the stack launched.</p>
+<p><img alt="Cognito CloudFormation step 5" src="../assets/images/cognito_step_5.png" /></p>
+</li>
+<li>
+<p>Check the Stack Outputs.</p>
+<p><img alt="Cognito CloudFormation step 6" src="../assets/images/cognito_step_6.png" /></p>
+</li>
+</ol>
+<h3 id="all-in-one-ai-deployment">All-In-One AI deployment</h3>
+<ol>
+<li>
+<p>Launch CloudFormation stack template by clicking <a href="https://console.aws.amazon.com/cloudformation/home?#/stacks/create/template"><img alt="Launch CloudFormation stack" src="../assets/images/launch.png" /></a> , and input Amazon S3 URL with HTTP URI of all-in-one-ai-main.yaml.</p>
+<p><img alt="Cognito CloudFormation step 1" src="../assets/images/main_step_1.png" /></p>
+</li>
+<li>
+<p>Specify stack details.  Please select at least 2 availability zone, Certificate, DomainName, input S3 bucket/key information of your stack template, input CognitoRegion, UserPool, UserPoolClient, UserPoolDomain if Cognito authentication is enabled and customize other parameters if needed. Choose Next.</p>
+<p><img alt="Cognito CloudFormation step 2" src="../assets/images/main_step_2.png" /></p>
+<p><img alt="Cognito CloudFormation step 2" src="../assets/images/main_step_2_2.png" /></p>
+<p><img alt="Cognito CloudFormation step 2" src="../assets/images/main_step_2_3.png" /></p>
+<p><img alt="Cognito CloudFormation step 2" src="../assets/images/main_step_2_4.png" /></p>
+</li>
+<li>
+<p>Configure stack options. Keep everything as default.</p>
+<p><img alt="Cognito CloudFormation step 3" src="../assets/images/main_step_3.png" /></p>
+<p><img alt="Cognito CloudFormation step 3" src="../assets/images/main_step_3_2.png" /></p>
+</li>
+<li>
+<p>Review stack all-in-one-ai. Check the 2 check boxes in the bottom. Choose Create Stack.</p>
+<p><img alt="Cognito CloudFormation step 4" src="../assets/images/main_step_4.png" /></p>
+<p><img alt="Cognito CloudFormation step 4" src="../assets/images/main_step_4_2.png" /></p>
+<p><img alt="Cognito CloudFormation step 4" src="../assets/images/main_step_4_3.png" /></p>
+<p><img alt="Cognito CloudFormation step 4" src="../assets/images/main_step_4_4.png" /></p>
+<p><img alt="Cognito CloudFormation step 4" src="../assets/images/main_step_4_5.png" /></p>
+<p><img alt="Cognito CloudFormation step 4" src="../assets/images/main_step_4_6.png" /></p>
+</li>
+<li>
+<p>Wait for around 30-60 minutes to get the stack launched.</p>
+<p><img alt="Cognito CloudFormation step 5" src="../assets/images/main_step_5.png" /></p>
+</li>
+<li>
+<p>Check the WebPortalURL, WebPortalDNS in the Stack Outputs and bind the WebPortalDNS to DomainName</p>
+<p><img alt="Cognito CloudFormation step 6" src="../assets/images/main_step_6.png" /></p>
+</li>
+<li>
+<p>Open the Web Portal URL in the Stack Outputs. If Cognito authentication is enabled, Cognito Login window will be prompt to input Username/Password. If Cognito authentication successes, the web portal of All-In-One AI will be shown. If Cognito authentication is disabled, the web portal of All-In-One AI will be shown directly.</p>
+<p><img alt="Cognito CloudFormation step 6" src="../assets/images/main_step_7.png" /></p>
+<p><img alt="Cognito CloudFormation step 6" src="../assets/images/main_step_7_2.png" /></p>
+</li>
+</ol>
+<h2 id="resource-cleanup">Resource Cleanup</h2>
+<ul>
+<li>
+<p>The resource created by CloudFormation will be deleted automatically when you delete CloudFormation stack. Before you delete CloudFormation stack, please make sure the following resources created dynamically are deleted.</p>
+</li>
+<li>
+<p>Go to <a href="https://console.aws.amazon.com/sagemaker/home">AWS SageMaker Console</a>, make sure all of model, endpoint config, and endpoint which were dynamically created are deleted.</p>
+</li>
+</ul>
+<h2 id="cloudformation-stack-parameters-reference">CloudFormation Stack Parameters Reference</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S3Bucket</td>
+<td>S3 bucket of assets</td>
+<td>String</td>
+<td></td>
+</tr>
+<tr>
+<td>S3Key</td>
+<td>S3 key of assets</td>
+<td>String</td>
+<td></td>
+</tr>
+<tr>
+<td>CustomIdentifier</td>
+<td>AWS Resource Custom Identifier</td>
+<td>String</td>
+<td>all-in-one-ai</td>
+</tr>
+<tr>
+<td>AvailabilityZones</td>
+<td>The list of Availability Zones to use for the subnets in the VPC. Please select two AvailabilityZones.</td>
+<td>List</td>
+<td></td>
+</tr>
+<tr>
+<td>DomainName</td>
+<td>Domain Name of Web Portal</td>
+<td>String</td>
+<td></td>
+</tr>
+<tr>
+<td>Certificate</td>
+<td>Certificate of Domain Name</td>
+<td>String</td>
+<td></td>
+</tr>
+<tr>
+<td>CognitoRegion</td>
+<td>Cognito Region</td>
+<td>String</td>
+<td></td>
+</tr>
+<tr>
+<td>CIDR</td>
+<td>CIDR block for VPC</td>
+<td>string</td>
+<td>10.0.0.0/16</td>
+</tr>
+<tr>
+<td>PublicSubnet1CIDR</td>
+<td>CIDR block for the public subnet in Availability Zone A</td>
+<td>String</td>
+<td>10.0.0.0/24</td>
+</tr>
+<tr>
+<td>PublicSubnet2CIDR</td>
+<td>CIDR block for the public subnet in Availability Zone B</td>
+<td>String</td>
+<td>10.0.1.0/24</td>
+</tr>
+<tr>
+<td>PrivateSubnet1CIDR</td>
+<td>CIDR block for the private subnet in Availability Zone A</td>
+<td>String</td>
+<td>10.0.2.0/24</td>
+</tr>
+<tr>
+<td>PrivateSubnet2CIDR</td>
+<td>CIDR block for the private subnet in Availability Zone B</td>
+<td>String</td>
+<td>10.0.3.0/24</td>
+</tr>
+<tr>
+<td>EfsEncrpytedBoolean</td>
+<td>Create an encrypted Amazon EFS file system.</td>
+<td>String</td>
+<td>True</td>
+</tr>
+<tr>
+<td>EfsGrowth</td>
+<td>Amount of dummy data (GiB) to add to the file system (max 6144 GiB)</td>
+<td>Number</td>
+<td>0</td>
+</tr>
+<tr>
+<td>EfsPerformanceMode</td>
+<td>Select the performance mode of the file system.</td>
+<td>String</td>
+<td>generalPurpose</td>
+</tr>
+<tr>
+<td>OpenSearchDomainName</td>
+<td>OpenSearch Domain</td>
+<td>String</td>
+<td>all-in-one-ai</td>
+</tr>
+<tr>
+<td>OpenSearchInstanceType</td>
+<td>OpenSearchInstanceType</td>
+<td>String</td>
+<td>m5.4xlarge.search</td>
+</tr>
+<tr>
+<td>UserPool</td>
+<td>UserPool Id</td>
+<td>String</td>
+<td></td>
+</tr>
+<tr>
+<td>UserPoolClient</td>
+<td>UserPoolClient Id</td>
+<td>String</td>
+<td></td>
+</tr>
+<tr>
+<td>UserPoolDomain</td>
+<td>Endpoint of UserPoolDomain</td>
+<td>String</td>
+<td></td>
+</tr>
+<tr>
+<td>ChinaRegion</td>
+<td>Check if the stack to be in CN Region</td>
+<td>String</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../builder/" class="btn btn-neutral float-left" title="Builder Guide"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../developer/" class="btn btn-neutral float-right" title="Developer Guide">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../builder/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../developer/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
