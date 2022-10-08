@@ -75,6 +75,10 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#gluonts">GluonTS</a>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#stylegan">StyleGAN</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#yolov5paddleocr">Yolov5PaddleOCR</a>
+    </li>
         </ul>
     </li>
     </ul>
@@ -111,6 +115,13 @@
 <p>Create industrial model</p>
 <p><img alt="Create industrial model based Yolov5" src="../assets/images/industrial_model_yolov5.png" /></p>
 <p><img alt="Create industrial model based Yolov5" src="../assets/images/industrial_model_yolov5_2.png" /></p>
+<p><strong>Model extra information</strong></p>
+<p>{
+    "labels": [
+        "license-plate", 
+        "vehicle"
+    ]
+}</p>
 </li>
 <li>
 <p>Quickstart - train</p>
@@ -279,6 +290,21 @@ names: ['license-plate','vehicle']
 <p>Create industrial model</p>
 <p><img alt="Create industrial model based GluonCV" src="../assets/images/industrial_model_gluoncv.png" /></p>
 <p><img alt="Create industrial model based GluonCV" src="../assets/images/industrial_model_gluoncv_2.png" /></p>
+<p><img alt="Create industrial model based GluonCV" src="../assets/images/industrial_model_gluoncv_3.png" /></p>
+<p><strong>Model extra information</strong></p>
+<p><strong>Image search</strong>
+{
+    "task": "search"
+}</p>
+<p><strong>Image classification</strong>
+{
+    "task": "classification",
+    "classes": [
+        "tench",
+        "goldfish",
+        ...
+    ]
+}</p>
 </li>
 <li>
 <p>Quickstart - train</p>
@@ -365,7 +391,10 @@ names: ['license-plate','vehicle']
 </li>
 <li>
 <p>Quickstart - deploy</p>
+<p><strong>Image search</strong></p>
 <p><img alt="Quickstart deploy - GluonCV" src="../assets/images/quickstart_deploy_gluoncv.png" /></p>
+<p><strong>Image classification</strong></p>
+<p><img alt="Quickstart deploy - GluonCV" src="../assets/images/quickstart_deploy_gluoncv_2.png" /></p>
 <p><strong>Environment variables</strong></p>
 <table>
 <thead>
@@ -383,7 +412,7 @@ names: ['license-plate','vehicle']
 </tr>
 <tr>
 <td>classes</td>
-<td>10</td>
+<td>1000</td>
 <td>Number of classes</td>
 </tr>
 <tr>
@@ -423,7 +452,7 @@ names: ['license-plate','vehicle']
 <p><strong>HTTP response</strong></p>
 <ul>
 <li>If task is search, return 2048 dimension embedding vector.</li>
-<li>Otherwise, return probability vector</li>
+<li>If task is classification, return top-k matched class id array.</li>
 </ul>
 </li>
 </ol>
@@ -433,6 +462,8 @@ names: ['license-plate','vehicle']
 <p>Create industrial model</p>
 <p><img alt="Create industrial model based PaddleOCR" src="../assets/images/industrial_model_paddleocr.png" /></p>
 <p><img alt="Create industrial model based PaddleOCR" src="../assets/images/industrial_model_paddleocr_2.png" /></p>
+<p><strong>Model extra information</strong></p>
+<p>{}</p>
 </li>
 <li>
 <p>Quickstart - train</p>
@@ -687,6 +718,8 @@ names: ['license-plate','vehicle']
 <p>Create industrial model</p>
 <p><img alt="Create industrial model based CPT" src="../assets/images/industrial_model_cpt.png" /></p>
 <p><img alt="Create industrial model based CPT" src="../assets/images/industrial_model_cpt_2.png" /></p>
+<p><strong>Model extra information</strong></p>
+<p>{}</p>
 </li>
 <li>
 <p>Quickstart - train</p>
@@ -834,6 +867,8 @@ names: ['license-plate','vehicle']
 <p>Create industrial model</p>
 <p><img alt="Create industrial model based GABSA" src="../assets/images/industrial_model_gabsa.png" /></p>
 <p><img alt="Create industrial model based GABSA" src="../assets/images/industrial_model_gabsa_2.png" /></p>
+<p><strong>Model extra information</strong></p>
+<p>{}</p>
 </li>
 <li>
 <p>Quickstart - train</p>
@@ -1025,6 +1060,8 @@ names: ['license-plate','vehicle']
 <p>Create industrial model</p>
 <p><img alt="Create industrial model based PaddleNLP" src="../assets/images/industrial_model_gabsa.png" /></p>
 <p><img alt="Create industrial model based PaddleNLP" src="../assets/images/industrial_model_gabsa_2.png" /></p>
+<p><strong>Model extra information</strong></p>
+<p>{}</p>
 </li>
 <li>
 <p>Quickstart - train</p>
@@ -1210,6 +1247,8 @@ names: ['license-plate','vehicle']
 <p>Create industrial model</p>
 <p><img alt="Create industrial model based DeBERTa" src="../assets/images/industrial_model_deberta.png" /></p>
 <p><img alt="Create industrial model based DeBERTa" src="../assets/images/industrial_model_deberta_2.png" /></p>
+<p><strong>Model extra information</strong></p>
+<p>{}</p>
 </li>
 <li>
 <p>Quickstart - deploy</p>
@@ -1293,6 +1332,8 @@ names: ['license-plate','vehicle']
 <p>Create industrial model</p>
 <p><img alt="Create industrial model based KeyBert" src="../assets/images/industrial_model_keybert.png" /></p>
 <p><img alt="Create industrial model based KeyBert" src="../assets/images/industrial_model_keybert_2.png" /></p>
+<p><strong>Model extra information</strong></p>
+<p>{}</p>
 </li>
 <li>
 <p>Quickstart - deploy</p>
@@ -1434,6 +1475,8 @@ names: ['license-plate','vehicle']
 <p>Create industrial model</p>
 <p><img alt="Create industrial model based GluonTS" src="../assets/images/industrial_model_gluonts.png" /></p>
 <p><img alt="Create industrial model based GluonTS" src="../assets/images/industrial_model_gluonts_2.png" /></p>
+<p><strong>Model extra information</strong></p>
+<p>{}</p>
 </li>
 <li>
 <p>Quickstart - train</p>
@@ -1710,6 +1753,218 @@ names: ['license-plate','vehicle']
         ]
 }
 </code></pre>
+</li>
+</ol>
+<h3 id="stylegan">StyleGAN</h3>
+<ol>
+<li>
+<p>Create industrial model</p>
+<p><img alt="Create industrial model based StyleGAN" src="../assets/images/industrial_model_stylegan.png" /></p>
+<p><img alt="Create industrial model based StyleGAN" src="../assets/images/industrial_model_stylegan_2.png" /></p>
+<p><strong>Model extra information</strong></p>
+<p>{}</p>
+</li>
+<li>
+<p>Quickstart - train</p>
+<p><img alt="Quickstart train - StyleGAN" src="../assets/images/quickstart_train_stylegan.png" /></p>
+<p><strong>Hyperparameters</strong></p>
+<table>
+<thead>
+<tr>
+<th>Hyperparameter</th>
+<th>Default value</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gpus</td>
+<td>1</td>
+<td>Num of GPUS</td>
+</tr>
+<tr>
+<td>snap</td>
+<td>50</td>
+<td>Number of GPUs to use [default: 1]</td>
+</tr>
+<tr>
+<td>metrics</td>
+<td>fid50k_full</td>
+<td>Comma-separated list or "none" [default: fid50k_full]</td>
+</tr>
+<tr>
+<td>seed</td>
+<td>0</td>
+<td>Random seed</td>
+</tr>
+<tr>
+<td>data</td>
+<td></td>
+<td>Training data (directory or zip)</td>
+</tr>
+<tr>
+<td>cond</td>
+<td>false</td>
+<td>Train conditional model based on dataset labels [default: false]</td>
+</tr>
+<tr>
+<td>subset</td>
+<td>all</td>
+<td>'Train with only N images</td>
+</tr>
+<tr>
+<td>mirror</td>
+<td>false</td>
+<td>Enable dataset x-flips</td>
+</tr>
+<tr>
+<td>config</td>
+<td>auto</td>
+<td>Base config, one of 'auto', 'stylegan2', 'paper256', 'paper512', 'paper1024', 'cifar'</td>
+</tr>
+<tr>
+<td>gamma</td>
+<td></td>
+<td>Override R1 gamma</td>
+</tr>
+<tr>
+<td>kimg</td>
+<td></td>
+<td>Override training duration</td>
+</tr>
+<tr>
+<td>batch</td>
+<td></td>
+<td>Override batch size</td>
+</tr>
+<tr>
+<td>aug</td>
+<td>ada</td>
+<td>Augmentation mode, one of 'noaug', 'ada', 'fixed'</td>
+</tr>
+<tr>
+<td>p</td>
+<td></td>
+<td>Augmentation probability for --aug=fixed</td>
+</tr>
+<tr>
+<td>target</td>
+<td></td>
+<td>ADA target value for --aug=ada</td>
+</tr>
+<tr>
+<td>augpipe</td>
+<td>bgc</td>
+<td>Augmentation pipeline</td>
+</tr>
+<tr>
+<td>resume</td>
+<td>noresume</td>
+<td>Resume training</td>
+</tr>
+<tr>
+<td>freezed</td>
+<td>0</td>
+<td>Freezed layers</td>
+</tr>
+<tr>
+<td>fp32</td>
+<td></td>
+<td>Disable mixed-precision training</td>
+</tr>
+<tr>
+<td>nhwc</td>
+<td></td>
+<td>Use NHWC memory format with FP16</td>
+</tr>
+<tr>
+<td>nobench</td>
+<td></td>
+<td>Disable cuDNN benchmarking</td>
+</tr>
+<tr>
+<td>allow-tf32</td>
+<td></td>
+<td>Allow PyTorch to use TF32 internally</td>
+</tr>
+<tr>
+<td>workers</td>
+<td></td>
+<td>Override number of DataLoader workers</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Input data configuration</strong></p>
+<table>
+<thead>
+<tr>
+<th>Channel name</th>
+<th>Mandatory</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>dataset</td>
+<td>Yes</td>
+<td>S3 URI of train data</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>Quickstart - deploy</p>
+<p><img alt="Quickstart deploy - StyleGAN" src="../assets/images/quickstart_deploy_stylegan.png" /></p>
+<p><strong>Environment variables</strong></p>
+<table>
+<thead>
+<tr>
+<th>Environment variable</th>
+<th>Default value</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>network</td>
+<td></td>
+<td>Pre-trianed network URL</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>Quickstart - inference</p>
+<p><img alt="Quickstart inference - StyleGAN" src="../assets/images/quickstart_inference_stylegan.png" /></p>
+<p><img alt="Quickstart inference - StyleGAN" src="../assets/images/quickstart_inference_stylegan_2.png" /></p>
+<p><strong>HTTP request</strong></p>
+<p>{
+    "inputs": {
+        "trunc": "0.7325021066422363", 
+        "seeds": "9,206,870,370"
+    }
+}</p>
+<p><strong>HTTP response</strong></p>
+<p>[
+    "s3://sagemaker-ap-east-1-034068151705/stylegan/inference/outputseed0370.png",
+    "s3://sagemaker-ap-east-1-034068151705/stylegan/inference/outputseed0009.png",
+    "s3://sagemaker-ap-east-1-034068151705/stylegan/inference/outputseed0870.png",
+    "s3://sagemaker-ap-east-1-034068151705/stylegan/inference/outputseed0206.png"
+]</p>
+</li>
+</ol>
+<h3 id="yolov5paddleocr">Yolov5PaddleOCR</h3>
+<ol>
+<li>
+<p>Create industrial model</p>
+<p><img alt="Create industrial model based Yolov5PaddleOCR" src="../assets/images/industrial_model_yolov5paddleocr.png" /></p>
+<p><img alt="Create industrial model based Yolov5PaddleOCR" src="../assets/images/industrial_model_yolov5paddleocr_2.png" /></p>
+<p><strong>Model extra information</strong></p>
+<p>{}</p>
+</li>
+<li>
+<p>Quickstart - inference</p>
+<p><img alt="Quickstart inference - Yolov5PaddleOCR" src="../assets/images/quickstart_inference_yolov5paddleocr.png" /></p>
 </li>
 </ol>
               
