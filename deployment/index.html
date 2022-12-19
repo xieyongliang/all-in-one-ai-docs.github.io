@@ -69,6 +69,8 @@
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#get-source-code">Get source code</a>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#update-source-code">Update source code</a>
+    </li>
     <li class="toctree-l3"><a class="reference internal" href="#build-and-deploy">Build and deploy</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#various-deployment-options">Various deployment options</a>
@@ -78,6 +80,18 @@
     <li class="toctree-l3"><a class="reference internal" href="#cognito-deployment-optional">Cognito deployment (Optional)</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#all-in-one-ai-deployment">All-In-One AI deployment</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#build-stable-diffusion-webui">Build stable-diffusion-webui</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#build-and-push-to-ecr">Build and push to ECR</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#stable-diffusion-webui-deployment">stable-diffusion-webui deployment</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#prepare-sd-models">Prepare SD models</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#launch-stable-diffusion-webui">Launch stable-diffusion-webui</a>
     </li>
         </ul>
     </li>
@@ -254,7 +268,10 @@
 </ul>
 <h2 id="quick-deployment">Quick Deployment</h2>
 <h3 id="get-source-code">Get source code</h3>
-<pre><code>git clone https://github.com/xieyongliang/all-in-one-ai -t [path-to-all-in-one-ai]
+<pre><code>git clone --recurse-submodules -j8 https://github.com/xieyongliang/all-in-one-ai.git -t [path-to-all-in-one-ai]
+</code></pre>
+<h3 id="update-source-code">Update source code</h3>
+<pre><code>git pull --recurse-submodules -j8
 </code></pre>
 <h3 id="build-and-deploy">Build and deploy</h3>
 <pre><code>Run the following commands to package python codes and build docker image for web portal and then upload assets to S3 and push docker image to ECR which region is the same AWS region as where CloudFormation stack. It will may take 30-60 minutes.
@@ -357,6 +374,76 @@
 <p><img alt="Cognito CloudFormation step 6" src="../assets/images/main_step_7_2.png" /></p>
 </li>
 </ol>
+<h2 id="build-stable-diffusion-webui">Build stable-diffusion-webui</h2>
+<h3 id="build-and-push-to-ecr">Build and push to ECR</h3>
+<p>Go to sagemaker/stable-diffusion-webui and </p>
+<pre><code>run ./build_and_push.sh [region-name]
+</code></pre>
+<p>Note: It is a partial step of build_and_deploy.sh</p>
+<h3 id="stable-diffusion-webui-deployment">stable-diffusion-webui deployment</h3>
+<ol>
+<li>
+<p>Launch CloudFormation stack template by clicking <a href="https://console.aws.amazon.com/cloudformation/home?#/stacks/create/template"><img alt="Launch CloudFormation stack" src="../assets/images/launch.png" /></a> , and input Amazon S3 URL with HTTP URI of all-in-one-ai-cognito.yaml.</p>
+<p><img alt="stable-difffusion-webui CloudFormation step 1" src="../assets/images/stable-diffusion-webui-01.png" /></p>
+</li>
+<li>
+<p>Specify stack details.  Please input API Gateway endpoint and select your private subnets, public subnets, vpc, and customize other parameters if needed. If you want to use HTTP, please leave the rest as blank. If you want to use HTTPS, please input ACM certifacate ARN and your domain name.Choose Next. For API Gateway endpoint, you can check it from the stack outputs of all-in-one-lambda.yaml.</p>
+<p><img alt="stable-difffusion-webui CloudFormation step 2" src="../assets/images/stable-diffusion-webui-02.png" /></p>
+<p><img alt="stable-difffusion-webui CloudFormation step 2" src="../assets/images/stable-diffusion-webui-03.png" />    </p>
+</li>
+<li>
+<p>Configure stack options. Keep everything as default and choose Next.</p>
+<p><img alt="stable-difffusion-webui CloudFormation step 3" src="../assets/images/stable-diffusion-webui-04.png" /></p>
+<p><img alt="stable-difffusion-webui CloudFormation step 3" src="../assets/images/stable-diffusion-webui-05.png" /></p>
+</li>
+<li>
+<p>Review stack all-in-one-ai. Check the 1 check boxes in the bottom. Choose Create Stack.</p>
+<p><img alt="stable-difffusion-webui CloudFormation step 4" src="../assets/images/stable-diffusion-webui-06.png" /></p>
+<p><img alt="stable-difffusion-webui CloudFormation step 4" src="../assets/images/stable-diffusion-webui-07.png" /></p>
+</li>
+<li>
+<p>Wait for around 10 minutes to get the stack launched and check the stack outpus.</p>
+<p><img alt="stable-difffusion-webui CloudFormation step 5" src="../assets/images/stable-diffusion-webui-08.png" /></p>
+</li>
+</ol>
+<h3 id="prepare-sd-models">Prepare SD models</h3>
+<ul>
+<li>
+<p>SD v2.0</p>
+<p><a href="https://huggingface.co/stabilityai/stable-diffusion-2/blob/main/768-v-ema.ckpt">768-v-ema.ckpt</a></p>
+<p><a href="https://github.com/Stability-AI/stablediffusion/blob/main/configs/stable-diffusion/v2-inference-v.yaml">stable-diffusion/v2-inference-v.yaml</a></p>
+</li>
+<li>
+<p>SD v1.5</p>
+<p><a href="https://huggingface.co/runwayml/stable-diffusion-v1-5/blob/main/v1-5-pruned-emaonly.ckpt">v1-5-pruned-emaonly.ckpt</a></p>
+<p><a href="https://huggingface.co/runwayml/stable-diffusion-v1-5/blob/main/v1-5-pruned.ckpt">v1-5-pruned.ckpt</a></p>
+</li>
+<li>
+<p>SD v1.4</p>
+<p><a href="https://huggingface.co/CompVis/stable-diffusion-v-1-4-original/blob/main/sd-v1-4-full-ema.ckpt">sd-v1-4-full-ema.ckpt</a></p>
+<p><a href="https://huggingface.co/CompVis/stable-diffusion-v-1-4-original/blob/main/sd-v1-4.ckpt">sd-v1-4.ckpt</a></p>
+</li>
+</ul>
+<p>You could pick up all your interested SD models and download them into one directory and then run </p>
+<pre><code>python3 prepare.py [path-to-sd-models-directory]
+</code></pre>
+<p>This script will help to generate model.tar.gz and push s3://[sagemaker-default-bucket]/assets/, push the whole model directory to s3://[sagemaker-default-bucket]/models/, and generate meta-data and save in DynamoDB.</p>
+<p>For instance, the following diagram shows the contents at the model files at s3://[sagemaker-default-bucket]/models/.</p>
+<p><img alt="stable-difffusion-webui models" src="../assets/images/stable-diffusion-webui-00.png" /></p>
+<p>Note:</p>
+<ul>
+<li>
+<p>For SD v2.0, please keep the filename consistent, e.g. 768-v-ema.ckpt and 768-v-ema.yaml.</p>
+</li>
+<li>
+<p>Only English versions of SD 2.x and SD 1.x are supported. Chinese versions (e.g. Taiyi) are not supported yet.</p>
+</li>
+</ul>
+<h3 id="launch-stable-diffusion-webui">Launch stable-diffusion-webui</h3>
+<ul>
+<li>Wait 10 minutes until the stable-diffusion-webui server pass the health check and then check the stack outputs of all-in-one-ai-webui and then launch the stable-diffusion-webui.</li>
+</ul>
+<p><img alt="stable-difffusion-webui" src="../assets/images/stable-diffusion-webui-09.png" /></p>
 <h2 id="resource-cleanup">Resource Cleanup</h2>
 <ul>
 <li>
