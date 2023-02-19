@@ -69,7 +69,7 @@
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#get-source-code">Get source code</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#build-and-deploy">Build and deploy</a>
+    <li class="toctree-l3"><a class="reference internal" href="#build-all-in-one-ai">Build all-in-one-ai</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#various-deployment-options">Various deployment options</a>
     </li>
@@ -81,9 +81,11 @@
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#build-stable-diffusion-webui">Build stable-diffusion-webui</a>
+    <li class="toctree-l2"><a class="reference internal" href="#stable-diffusion-webui">stable-diffusion-webui</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#build-and-push-to-ecr">Build and push to ECR</a>
+    <li class="toctree-l3"><a class="reference internal" href="#build-stable-diffusion-webui-fully">Build stable-diffusion-webui (Fully)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#build-stable-diffusion-webui-partially">Build stable-diffusion-webui (Partially)</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#stable-diffusion-webui-deployment">stable-diffusion-webui deployment</a>
     </li>
@@ -104,6 +106,10 @@
               </ul>
               <ul>
                 <li class="toctree-l1"><a class="reference internal" href="../developer/">Developer Guide</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../stable-diffusion-webui/">Stable diffusion webui</a>
                 </li>
               </ul>
       </div>
@@ -268,12 +274,17 @@
 </ul>
 <h2 id="quick-deployment">Quick Deployment</h2>
 <h3 id="get-source-code">Get source code</h3>
-<pre><code>Contact your corresponding Amazon AWS Account BD/SA or email to yonglxie@amazon.com to get the source code.
-</code></pre>
-<h3 id="build-and-deploy">Build and deploy</h3>
-<pre><code>Run the following commands to package python codes and build docker image for web portal and then upload assets to S3 and push docker image to ECR which region is the same AWS region as where CloudFormation stack. It will may take 15-30 minutes. Parameters s3uri and aws-region are mandatory while parameter algorithm is optional to specify which algorithm will be built-in and if it is not presented, all of algorithms will be built-in.
+<p>Contact your corresponding Amazon AWS Account BD/SA or email to yonglxie@amazon.com to get the source code.</p>
+<p>You may run the following commands to clone or update all-in-one-ai source tree.</p>
+<pre><code>git clone --recurse-submodules -j8 [git-repo] [path-to-all-in-one-ai]
 
-Usage: ./build_and_deploy.sh [s3uri] [aws-region] [algorithm]
+git pull --recurse-submodules -j8
+</code></pre>
+<h3 id="build-all-in-one-ai">Build all-in-one-ai</h3>
+<p>Change directory to [path-to-all-in-one-ai]/deployment and run the following commands to package python codes and build docker image for web portal and then upload assets to S3 and push docker image to ECR which region is the same AWS region as where CloudFormation stack. It will may take 15-30 minutes. Parameters s3uri and aws-region are mandatory while parameter algorithm is optional to specify which algorithm will be built-in and if it is not presented, all of algorithms will be built-in.</p>
+<pre><code>cd [path-to-all-in-one-ai]/deployment
+
+./build_and_deploy.sh [s3uri] [aws-region] [algorithm]
 </code></pre>
 <h3 id="various-deployment-options">Various deployment options</h3>
 <ol>
@@ -371,12 +382,19 @@ Usage: ./build_and_deploy.sh [s3uri] [aws-region] [algorithm]
 <p><img alt="Cognito CloudFormation step 6" src="../assets/images/main_step_7_2.png" /></p>
 </li>
 </ol>
-<h2 id="build-stable-diffusion-webui">Build stable-diffusion-webui</h2>
-<h3 id="build-and-push-to-ecr">Build and push to ECR</h3>
-<p>Go to sagemaker/stable-diffusion-webui and </p>
-<pre><code>run ./build_and_push.sh [region-name]
+<h2 id="stable-diffusion-webui">stable-diffusion-webui</h2>
+<h3 id="build-stable-diffusion-webui-fully">Build stable-diffusion-webui (Fully)</h3>
+<p>Change directory to [path-to-all-in-one-ai]/deployment and run the following commands to package python codes and build docker image for web portal and then upload assets to S3 and push docker image to ECR which region is the same AWS region as where CloudFormation stack. It will may take 15-30 minutes. Parameters s3uri and aws-region are mandatory while parameter algorithm is optional to specify which algorithm will be built-in and if it is not presented, all of algorithms will be built-in.</p>
+<pre><code>cd [path-to-all-in-one-ai]/deployment
+
+./build_and_deploy.sh [s3uri] [aws-region] stable-diffusion-webui
 </code></pre>
-<p>Note: It is a partial step of build_and_deploy.sh</p>
+<h3 id="build-stable-diffusion-webui-partially">Build stable-diffusion-webui (Partially)</h3>
+<p>Go to sagemaker/stable-diffusion-webui and run the following command.</p>
+<pre><code>cd [path-to-all-in-one-ai]/sagemaker/stable-diffusion-webui
+
+run ./build_and_push.sh [region-name]
+</code></pre>
 <h3 id="stable-diffusion-webui-deployment">stable-diffusion-webui deployment</h3>
 <ol>
 <li>
