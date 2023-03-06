@@ -94,6 +94,7 @@
 <li>pip3</li>
 <li>docker</li>
 <li>jq</li>
+<li>s5cmd</li>
 </ul>
 <h2 id="build-stable-diffusion-webui-fully">Build stable-diffusion-webui (Fully)</h2>
 <p>Change directory to [path-to-all-in-one-ai]/deployment and run the following commands to package python codes and build docker image for web portal and then upload assets to S3 and push docker image to ECR which region is the same AWS region as where CloudFormation stack. It will may take 15-30 minutes. Parameters s3uri and aws-region are mandatory while parameter algorithm is optional to specify which algorithm will be built-in and if it is not presented, all of algorithms will be built-in.</p>
@@ -138,7 +139,7 @@ run ./build_and_push.sh [region-name]
 <p><img alt="stable-difffusion-webui CloudFormation step 5" src="../assets/images/stable-diffusion-webui-12.png" /></p>
 </li>
 </ol>
-<h3 id="prepare-sd-models">Prepare SD models</h3>
+<h3 id="prepare-models">Prepare models</h3>
 <ul>
 <li>
 <p>SD v2.1</p>
@@ -160,12 +161,26 @@ run ./build_and_push.sh [region-name]
 <p><a href="https://huggingface.co/CompVis/stable-diffusion-v-1-4-original/blob/main/sd-v1-4-full-ema.ckpt">sd-v1-4-full-ema.ckpt</a></p>
 <p><a href="https://huggingface.co/CompVis/stable-diffusion-v-1-4-original/blob/main/sd-v1-4.ckpt">sd-v1-4.ckpt</a></p>
 </li>
+<li>
+<p>ControlNet
+    <a href="https://huggingface.co/lllyasviel/ControlNet/tree/main/models">pre-trained ControlNet models</a></p>
+</li>
 </ul>
-<p>You could pick up all your interested SD models and download them into one directory and then run </p>
-<pre><code>python3 prepare.py [path-to-sd-models-directory]
+<p>You could pick up all your interested SD models and download them and organize the directory structure as following. You will need to put your SD models to assets/Stable-diffusion and models and put your pre-trained ControlNet models to assets/ControlNet. </p>
+<pre><code>--[path-to-model-preparation-directory]
+   --assets
+     --Stable-diffusion
+     --ControlNet
+   --models
 </code></pre>
-<p>This script will help to generate model.tar.gz and push s3://[sagemaker-default-bucket]/assets/, push the whole model directory to s3://[sagemaker-default-bucket]/models/.</p>
-<p>For instance, the following diagram shows the contents at the model files at s3://[sagemaker-default-bucket]/models/.</p>
+<p>You will need to run the following commands.</p>
+<pre><code>cd [path-to-model-preparation-directory]/assets
+tar czvf model.tar.gz Stable-diffusion ControlNet
+cd [path-to-model-preparation-direcotry]
+python3 prepare.sh
+</code></pre>
+<p>This script will help to push assets/model.tar.gz to s3://[sagemaker-default-bucket]/assets/, push the models directory to s3://[sagemaker-default-bucket]/models/.</p>
+<p>For instance, the following diagram shows the model files at s3://[sagemaker-default-bucket]/models/.</p>
 <p><img alt="stable-difffusion-webui models" src="../assets/images/stable-diffusion-webui-00.png" /></p>
 <p>Note:</p>
 <ul>
@@ -178,7 +193,22 @@ run ./build_and_push.sh [region-name]
 </ul>
 <h2 id="launch-stable-diffusion-webui">Launch stable-diffusion-webui</h2>
 <ul>
-<li>Wait 10 minutes until the stable-diffusion-webui server pass the health check and then check the stack outputs of all-in-one-ai-webui and then launch the stable-diffusion-webui.</li>
+<li>
+<p>Wait 10 minutes until the stable-diffusion-webui server pass the health check and then check the stack outputs of all-in-one-ai-webui and then launch the stable-diffusion-webui. </p>
+</li>
+<li>
+<p>You will need to run your secretmanager.sh script to get your username/password where your-secret-id is one of your CloudFormation stack's output.</p>
+<pre><code>cd ~ubuntu/sagemaker/stable-diffusion-webui/tools
+./secretmanager.sh [your-secret-id] [region] get
+</code></pre>
+</li>
+<li>
+<p>You will be asked to input username/password for eligibility check to use this stable-diffusion-webui. </p>
+</li>
+</ul>
+<p><img alt="stable-difffusion-webui" src="../assets/images/stable_diffusion_webui_login.png" /></p>
+<ul>
+<li>After you pass the eligibility check, you are ready to use stable-diffusion-webui.</li>
 </ul>
 <p><img alt="stable-difffusion-webui" src="../assets/images/stable-diffusion-webui-13.png" /></p>
 <h2 id="setup-stable-diffusion-webui">Setup stable-diffusion-webui</h2>

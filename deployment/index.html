@@ -89,7 +89,7 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#stable-diffusion-webui-deployment">stable-diffusion-webui deployment</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#prepare-sd-models">Prepare SD models</a>
+    <li class="toctree-l3"><a class="reference internal" href="#prepare-models">Prepare models</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#launch-stable-diffusion-webui">Launch stable-diffusion-webui</a>
     </li>
@@ -245,6 +245,7 @@
 <li>pip3</li>
 <li>docker</li>
 <li>jq</li>
+<li>s5cmd</li>
 </ul>
 <h3 id="service-quotas-and-limits">Service quotas and limits</h3>
 <ul>
@@ -426,7 +427,7 @@ run ./build_and_push.sh [region-name]
 <p><img alt="stable-difffusion-webui CloudFormation step 5" src="../assets/images/stable-diffusion-webui-12.png" /></p>
 </li>
 </ol>
-<h3 id="prepare-sd-models">Prepare SD models</h3>
+<h3 id="prepare-models">Prepare models</h3>
 <ul>
 <li>
 <p>SD v2.1</p>
@@ -448,11 +449,25 @@ run ./build_and_push.sh [region-name]
 <p><a href="https://huggingface.co/CompVis/stable-diffusion-v-1-4-original/blob/main/sd-v1-4-full-ema.ckpt">sd-v1-4-full-ema.ckpt</a></p>
 <p><a href="https://huggingface.co/CompVis/stable-diffusion-v-1-4-original/blob/main/sd-v1-4.ckpt">sd-v1-4.ckpt</a></p>
 </li>
+<li>
+<p>ControlNet
+    <a href="https://huggingface.co/lllyasviel/ControlNet/tree/main/models">pre-trained ControlNet models</a></p>
+</li>
 </ul>
-<p>You could pick up all your interested SD models and download them into one directory and then run </p>
-<pre><code>python3 prepare.py [path-to-sd-models-directory]
+<p>You could pick up all your interested SD models and download them and organize the directory structure as following. You will need to put your SD models to assets/Stable-diffusion and models and put your pre-trained ControlNet models to assets/ControlNet. </p>
+<pre><code>--[path-to-model-preparation-directory]
+   --assets
+     --Stable-diffusion
+     --ControlNet
+   --models
 </code></pre>
-<p>This script will help to generate model.tar.gz and push s3://[sagemaker-default-bucket]/assets/, push the whole model directory to s3://[sagemaker-default-bucket]/models/.</p>
+<p>You will need to run the following commands.</p>
+<pre><code>cd [path-to-model-preparation-directory]/assets
+tar czvf model.tar.gz Stable-diffusion ControlNet
+cd [path-to-model-preparation-direcotry]
+python3 prepare.sh
+</code></pre>
+<p>This script will help to push assets/model.tar.gz to s3://[sagemaker-default-bucket]/assets/, push the models directory to s3://[sagemaker-default-bucket]/models/.</p>
 <p>For instance, the following diagram shows the contents at the model files at s3://[sagemaker-default-bucket]/models/.</p>
 <p><img alt="stable-difffusion-webui models" src="../assets/images/stable-diffusion-webui-00.png" /></p>
 <p>Note:</p>
