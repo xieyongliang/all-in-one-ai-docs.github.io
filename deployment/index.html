@@ -481,7 +481,22 @@ python3 prepare.sh
 </ul>
 <h3 id="launch-stable-diffusion-webui">Launch stable-diffusion-webui</h3>
 <ul>
-<li>Wait 10 minutes until the stable-diffusion-webui server pass the health check and then check the stack outputs of all-in-one-ai-webui and then launch the stable-diffusion-webui.</li>
+<li>
+<p>Wait 10 minutes until the stable-diffusion-webui server pass the health check and then check the stack outputs of all-in-one-ai-webui and then launch the stable-diffusion-webui. </p>
+</li>
+<li>
+<p>You will need to run your secretmanager.sh script to get your username/password where your-secret-id is one of your CloudFormation stack's output.</p>
+<pre><code>cd ~ubuntu/sagemaker/stable-diffusion-webui/tools
+./secretmanager.sh [your-secret-id] [region] get
+</code></pre>
+</li>
+<li>
+<p>You will be asked to input username/password for eligibility check to use this stable-diffusion-webui. </p>
+</li>
+</ul>
+<p><img alt="stable-difffusion-webui" src="../assets/images/stable_diffusion_webui_login.png" /></p>
+<ul>
+<li>After you pass the eligibility check, you are ready to use stable-diffusion-webui.</li>
 </ul>
 <p><img alt="stable-difffusion-webui" src="../assets/images/stable-diffusion-webui-13.png" /></p>
 <h3 id="setup-stable-diffusion-webui">Setup stable-diffusion-webui</h3>
