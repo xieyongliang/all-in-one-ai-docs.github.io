@@ -486,26 +486,28 @@ python3 prepare.sh
 </li>
 <li>
 <p>You will need to run your secretmanager.sh script to get your username/password where your-secret-id is one of your CloudFormation stack's output.</p>
-<pre><code>cd ~ubuntu/sagemaker/stable-diffusion-webui/tools
+<pre><code>cd [path-to-all-in-one-ai]/sagemaker/stable-diffusion-webui/tools
 ./secretmanager.sh [your-secret-id] [region] get
 </code></pre>
 </li>
 <li>
-<p>You will be asked to input username/password for eligibility check to use this stable-diffusion-webui. </p>
+<p>You will be asked to input username/password for eligibility check to use this stable-diffusion-webui. Here username/password could be either from the above step with secretmanager.sh or from your admin user who will manage users.</p>
 </li>
 </ul>
 <p><img alt="stable-difffusion-webui" src="../assets/images/stable_diffusion_webui_login.png" /></p>
 <ul>
-<li>After you pass the eligibility check, you are ready to use stable-diffusion-webui.</li>
+<li>Admin user will be able to manager users, e.g. users creation / update / deletion.</li>
 </ul>
 <p><img alt="stable-difffusion-webui" src="../assets/images/stable-diffusion-webui-13.png" /></p>
+<ul>
+<li>Normal users will be able to use stable-diffusion-webui for normal image generation tasks.</li>
+</ul>
+<p><img alt="stable-difffusion-webui" src="../assets/images/stable-diffusion-webui-14.png" /></p>
+<ul>
+<li>You can switch users by clicking Logout button.</li>
+</ul>
 <h3 id="setup-stable-diffusion-webui">Setup stable-diffusion-webui</h3>
 <ul>
-<li>
-<p>Signin or Signup</p>
-<p>Choose user tab and then signin or signup firstly. Note you won't be able to perform any GPU related actions unless you are logined via either signin or signup.</p>
-<p><img alt="Signin or Signup stable-diffusion-webui " src="../assets/images/stable_diffusion_webui_setup_user.png" />    </p>
-</li>
 <li>
 <p>Configure your SageMaker endpoint and your stable diffusion models</p>
 <p>Select your SageMaker endpoint firstly from dropdown list of avaiable SageMaker endpoints list. You may refresh the available SageMaker endpoints list by clicking refresh button right after SageMaker endpoints dropdown list. Then refresh stable diffusion models by clicking refresh button right after stable diffusion models and choose your stable diffusion model.</p>
